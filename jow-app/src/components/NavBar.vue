@@ -6,7 +6,6 @@
         <ul class="navbar-links">
             <li><a href="/accueil">Accueil</a></li>
             <li><a href="/liste_de_course">Ma Liste</a></li>
-            <li><a href="#">Contact</a></li>
         </ul>
         <div class="navbar-toggle" @click="toggleMenu">
             <span></span>
@@ -14,9 +13,8 @@
             <span></span>
         </div>
         <ul v-if="isMenuOpen" class="navbar-links-mobile">
-            <li><a href="#" @click="toggleMenu">Accueil</a></li>
-            <li><a href="#" @click="toggleMenu">Ma Liste</a></li>
-            <li><a href="#" @click="toggleMenu">Contact</a></li>
+            <li><a href="/accueil" @click="toggleMenu">Accueil</a></li>
+            <li><a href="/liste_de_course" @click="toggleMenu">Ma Liste</a></li>
         </ul>
     </nav>
 </template>
