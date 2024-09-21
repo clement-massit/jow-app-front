@@ -1,185 +1,117 @@
-<script>
-export default {
-    data() {
-        return {
-            searchQuery: '',
-            postDataResult: null, // Pour stocker le résultat de la requête POST
-            errorMessage: '', // Pour afficher un message d'erreur
-        };
-    },
-    methods: {
-        // Appelle la fonction postData et affiche les résultats
-        async sendData() {
-            const endpoint = 'recipes';
-            const payload = { 'name': this.searchQuery, 'limit': 5 };
-
-            try {
-                const data = await postData(endpoint, payload);
-                this.postDataResult = data; // Stocker les résultats de la requête POST
-            } catch (error) {
-                this.errorMessage = "Erreur lors de l'envoi des données.";
-            }
-        },
-    },
-};
-
-// Fonction postData définie en dehors du composant Vue.js
-async function postData(endpoint, payload) {
-    const apiUrl = "https://jow-app-production.up.railway.app"; // Remplacez par l'URL de votre API
-
-    try {
-        const response = await fetch(`${apiUrl}/${endpoint}`, {
-            method: "POST",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            },
-            body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-            throw new Error(`Erreur POST : ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data; // Retourne les données pour les utiliser dans Vue.js
-    } catch (error) {
-        console.error("Erreur lors de la requête POST:", error);
-        throw error;
-    }
-}
-
-
-
-</script>
-
-<script setup>
-import InputText from 'primevue/inputtext';
-
-</script>
 <template>
-    <div class="home-container">
-        <!-- Banner Section -->
-        <section class="banner">
-            <h1>Welcome to RecipeMaster!</h1>
-            <p>Discover your favorite recipes</p>
-            <!-- <input type="text" v-model="searchQuery" placeholder="Entrez le nom de la recette" /> -->
+    <div class="home">
+        <header>
+            <h1>Bienvenue sur l'application de recettes !</h1>
+            <p>Créez vos listes de courses à partir de vos recettes préférées.</p>
+        </header>
 
-
+        <section class="recipes">
+            <Recipes></Recipes>
         </section>
-        <div class="">
-            <label for="username">Enter a recipe</label>
-            <InputText inputmode="text" v-model="searchQuery" @keydown.enter="sendData" />
 
-            <button @click="sendData">Explore Recipes</button>
-        </div>
-        <!-- Featured Recipes Section -->
-        <section class="featured-recipes">
-            <h2>Featured Recipes</h2>
-            <div v-if="postDataResult">
-                <h3>Résultat de la requête POST :</h3>
-
-            </div>
-            <div class="recipes-grid">
-                <div v-for="(recipe, index) in postDataResult" :key="index" class="recipe-card">
-                    <!-- <img :src="recipe.image" :alt="recipe.name" class="recipe-image" /> -->
+        <!-- <section class="recipes">
+            <h2>Recettes populaires</h2>
+            <div class="recipe-list">
+                <div v-for="recipe in recipes" :key="recipe.id" class="recipe-item">
                     <h3>{{ recipe.name }}</h3>
                     <p>{{ recipe.description }}</p>
-                    <button @click="viewRecipe(recipe.id)">View Recipe</button>
+                    <button @click="addToShoppingList(recipe.ingredients)">Ajouter à la liste de courses</button>
                 </div>
             </div>
         </section>
+
+        <section class="shopping-list">
+            <h2>Ma Liste de Courses</h2>
+            <ul>
+                <li v-for="(item, index) in shoppingList" :key="index">{{ item }}</li>
+            </ul>
+            <button @click="clearShoppingList">Vider la liste de courses</button>
+        </section> -->
     </div>
 </template>
+<script setup>import Recipes from './Recipes.vue';</script>
+<script>
 
-
+export default {
+    data() {
+        return {
+            recipes: [
+                {
+                    id: 1,
+                    name: 'Spaghetti Carbonara',
+                    description: 'Une délicieuse recette italienne de spaghetti avec sauce carbonara.',
+                    ingredients: ['Spaghetti', 'Œufs', 'Lardons', 'Parmesan', 'Crème fraîche']
+                },
+                {
+                    id: 2,
+                    name: 'Salade César',
+                    description: 'Une salade classique avec du poulet grillé, des croûtons et une sauce césar.',
+                    ingredients: ['Poulet', 'Laitue', 'Croûtons', 'Parmesan', 'Sauce César']
+                }
+            ],
+            shoppingList: []
+        };
+    },
+    methods: {
+        addToShoppingList(ingredients) {
+            this.shoppingList = [...new Set([...this.shoppingList, ...ingredients])]; // Ajout sans doublons
+        },
+        clearShoppingList() {
+            this.shoppingList = [];
+        }
+    }
+};
+</script>
 
 <style scoped>
-.home-container {
+.home {
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    max-width: 800px;
     padding: 20px;
 }
 
-.banner {
+header {
     text-align: center;
-    background-color: #f8b400;
-    color: white;
-    padding: 40px 20px;
-    border-radius: 10px;
     margin-bottom: 30px;
 }
 
-.banner h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
+.recipe-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.banner p {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+.recipe-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
 }
 
-.banner button {
-    background-color: #ff6b6b;
+button {
+    background-color: #28a745;
     color: white;
     border: none;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    border-radius: 5px;
+    padding: 10px;
     cursor: pointer;
-}
-
-.banner button:hover {
-    background-color: #ff4757;
-}
-
-.featured-recipes {
-    text-align: center;
-}
-
-.recipes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.recipe-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-}
-
-.recipe-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.recipe-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.recipe-card p {
-    font-size: 1rem;
-    margin-bottom: 20px;
-}
-
-.recipe-card button {
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 1rem;
     border-radius: 5px;
-    cursor: pointer;
 }
 
-.recipe-card button:hover {
-    background-color: #ff4757;
+button:hover {
+    background-color: #218838;
+}
+
+.shopping-list {
+    margin-top: 40px;
+}
+
+.shopping-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.shopping-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
 }
 </style>

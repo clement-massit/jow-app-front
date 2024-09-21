@@ -9,20 +9,28 @@ import Aura from "@primevue/themes/aura";
 import "./style.css";
 
 import App from "./App.vue";
+import Home from "./components/Home.vue";
+import ListCourse from "./components/ListCourse.vue";
 
 const pinia = createPinia();
 
 export const routes = [
   {
     path: "/",
-    redirect: "",
+    redirect: "accueil",
   },
-  //   {
-  //     path: "/datasets",
-  //     component: Datasets,
-  //     name: "datasets",
-  //     meta: { requiresAuth: true },
-  //   },
+  {
+    path: "/accueil",
+    component: Home,
+    name: "home",
+    meta: { requiresAuth: false },
+  },
+  {
+    path: "/liste_de_course",
+    component: ListCourse,
+    name: "liste_de_course",
+    meta: { requiresAuth: false },
+  },
   //   {
   //     path: "/projects",
   //     component: Projects,
@@ -58,6 +66,10 @@ export const routes = [
   //     component: Login,
   //     name: "login",
   //   },
+  {
+    path: "/:pathMatch(.*)*", // Gestion des routes non trouvées
+    redirect: "/accueil",
+  },
 ];
 
 const router = createRouter({

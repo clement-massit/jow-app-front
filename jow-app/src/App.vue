@@ -1,11 +1,15 @@
 <script setup>
 import Home from './components/Home.vue';
-
+import NavBar from './components/NavBar.vue';
 </script>
 
 <template>
-
-  <Home />
+  <NavBar></NavBar>
+  <nav>
+    <router-link to="/accueil"></router-link>
+    <router-link to="/liste_de_course"></router-link>
+    <router-view></router-view>
+  </nav>
 </template>
 
 <style scoped>
