@@ -302,7 +302,7 @@ async function fetchOwnRecipes() {
 
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .shopping-list {
     max-width: 100%;
     margin: 0 auto;
@@ -332,9 +332,7 @@ ul {
     cursor: pointer;
 }
 
-/* .delete-button:hover {
-        background-color: darkred;
-    } */
+
 
 
 
@@ -504,4 +502,4 @@ button:hover {
 
 
 }
-</style>
+</style> -->
