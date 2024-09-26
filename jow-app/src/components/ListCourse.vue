@@ -389,6 +389,11 @@ li {
 
 /* Adaptation pour les petits écrans (comme les téléphones) */
 @media (max-width: 768px) {
+
+    body {
+        color: black;
+    }
+
     .grid-container {
         grid-template-columns: 1fr;
     }
