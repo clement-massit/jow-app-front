@@ -191,7 +191,7 @@ export default {
     },
     methods: {
         checkScreenSize() {
-            this.isMobile = window.innerWidth <= 768;
+            this.isMobile = window.innerWidth <= 900;
         },
 
 
@@ -328,6 +328,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f8f8f8;
+
 }
 
 h2,
@@ -384,14 +385,51 @@ li {
 
 .right-recipe {
     grid-area: 1 / 2 / 2 / 3;
+}
 
+input {
+    margin: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.delete-button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #28a745;
+
+
+    /* border-radius: 50%; */
+    /* width: 25px;
+        height: 25px; */
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 /* Adaptation pour les petits écrans (comme les téléphones) */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
     body {
-        color: black;
+
+        color: #213547;
     }
 
     .grid-container {
@@ -412,6 +450,47 @@ li {
 
     .right-recipe {
         grid-area: 2 / 1 / 3 / 2;
+    }
+
+    .add-ingredient {
+        margin-top: 20px;
+    }
+
+    input {
+        margin: 5px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #218838;
+    }
+
+    .delete-button {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background-color: #28a745;
+
+
+        /* border-radius: 50%; */
+        /* width: 25px;
+        height: 25px; */
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
     }
 }
 </style>
