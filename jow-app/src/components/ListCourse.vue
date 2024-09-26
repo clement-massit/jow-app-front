@@ -80,6 +80,7 @@
                     </div>
 
                 </div>
+                <Divider></Divider>
 
 
 
@@ -88,7 +89,26 @@
         </ul>
         <p v-else>Aucun ingrédient à afficher.</p>
         <div v-if="newIngredients.length !== 0">
-            {{ newIngredients }}
+            <div v-for="(ingredient, indexIng) in newIngredients" :key="indexIng">
+                <div class="my-3 text-left">
+                    <label>
+                        <Checkbox v-model="checkedItems" name="ingredient" :value="ingredient.name" />
+
+
+                    </label>
+                    {{ ingredient.name }} {{ ((ingredient.quantity * (increment)).toFixed(4)) }} {{
+                        ingredient.unit }}
+                    <Button size="small" rounded @click="supprimerIngredient(indexIng)"
+                        class="bg-transparent border-none stroke">
+                        <i class="pi pi-times" style="color: #213547;"></i>
+
+                    </Button>
+
+                </div>
+
+
+            </div>
+
         </div>
         <!-- Ajouter un ingrédient -->
         <div class="add-ingredient">
@@ -109,6 +129,7 @@ import Checkbox from 'primevue/checkbox';
 </script>
 <script>
 
+import Divider from 'primevue/divider';
 
 export default {
     data() {
@@ -133,11 +154,9 @@ export default {
         if (savedCheckedItems) {
             this.checkedItems = savedCheckedItems;
         }
-        const savedNewIngredients = JSON.parse(localStorage.getItem('newIngredients'));
-        if (savedNewIngredients) {
-            console.log(savedNewIngredients)
-            this.newIngredients = savedNewIngredients;
-        }
+        this.chargerDepuisLocalStorage();
+
+
 
     },
     watch: {
@@ -276,18 +295,38 @@ export default {
                 throw error;
             }
         },
+        sauvegarderDansLocalStorage() {
+            // Sauvegarde la liste des ingrédients dans le localStorage
+            localStorage.setItem('ingredients', JSON.stringify(this.newIngredients));
+        },
+        chargerDepuisLocalStorage() {
+            // Récupère les ingrédients sauvegardés dans le localStorage, s'ils existent
+            const ingredientsStockes = localStorage.getItem('ingredients');
+            if (ingredientsStockes) {
+                this.newIngredients = JSON.parse(ingredientsStockes);
+            }
+        },
+
+
         addIngredient() {
             if (this.newIngredient.name && this.newIngredient.quantity) {
                 this.newIngredients.push({
                     ...this.newIngredient,
                     quantity: Number(this.newIngredient.quantity),
                 });
-                this.newIngredient = { name: "", quantity: "", unit: "" }; // Réinitialiser le formulaire
+                this.newIngredient = { name: "", quantity: "", unit: "" }; // Réinitialiser le formulaire.
+                this.sauvegarderDansLocalStorage()
+
             } else {
                 alert("Veuillez remplir tous les champs.");
             }
 
         },
+        supprimerIngredient(index) {
+            this.newIngredients.splice(index, 1);
+            this.sauvegarderDansLocalStorage();
+        },
+
 
     }
 };
