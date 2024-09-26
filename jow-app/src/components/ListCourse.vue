@@ -30,7 +30,7 @@
                     <div class="left-recipe">
 
                         <h4 class="recipe-title">{{ recette.name }}</h4>
-                        <img :src="recette.imgUrl" alt="Image de la recette" class="w-4 " />
+                        <img :src="recette.imgUrl" alt="Image de la recette" class="w-8 " />
 
                         <div class="recipe-info">
 
