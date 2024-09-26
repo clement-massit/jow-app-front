@@ -3,13 +3,34 @@
 
         <h1 v-if="!isMobile">Liste de courses</h1>
         <h3 v-else class="mt-6">Liste de courses</h3>
+        <!-- <div v-for="(recette, index) in recettes" :key="index">
+
+            <div class="ingredients">
+                <h3>Ingrédients :</h3>
+                <div v-for="(ingredient, indexIng) in recette.ingredients" :key="indexIng">
+                    <div class="my-2 text-left ml-8">
+                        <label>
+                            <Checkbox v-model="checkedItems" name="ingredient" :value="ingredient.name" />
+
+
+                        </label>
+                        {{ ingredient.name }} {{ ((ingredient.quantity * (increment)).toFixed(4)) }} {{
+                            ingredient.unit }}
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+
+
+
         <ul v-if="recettes.length">
             <li v-for="(recette, index) in recettes" :key="index">
                 <div class="recipe-card">
                     <div class="left-recipe">
 
                         <h4 class="recipe-title">{{ recette.name }}</h4>
-                        <img :src="recette.imgUrl" alt="Image de la recette" class="w-6 " />
+                        <img :src="recette.imgUrl" alt="Image de la recette" class="w-4 " />
 
                         <div class="recipe-info">
 
@@ -41,7 +62,7 @@
                     </div>
                     <div class="rigth-recipe">
                         <div v-for="(ingredient, indexIng) in recette.ingredients" :key="indexIng">
-                            <div class="my-3 text-left ml-8">
+                            <div class="my-3 text-left">
                                 <label>
                                     <Checkbox v-model="checkedItems" name="ingredient" :value="ingredient.name" />
 
@@ -301,7 +322,94 @@ async function fetchOwnRecipes() {
 
 
 </script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
 
+h2,
+h3 {
+    color: #333;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    /* padding: 20px; */
+}
+
+/* Styles pour la partie recette */
+.recette {
+    background-color: #fff;
+    /* padding: 20px; */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour la partie ingrédients */
+.ingredients {
+    font-size: small;
+    background-color: #fff;
+    /* padding: 20px; */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+ol,
+ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.recipe-card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 3px;
+    grid-row-gap: 0px;
+    align-items: center;
+}
+
+.left-recipe {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.right-recipe {
+    grid-area: 1 / 2 / 2 / 3;
+
+}
+
+/* Adaptation pour les petits écrans (comme les téléphones) */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .recipe-card {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }
+
+    .left-recipe {
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+    .right-recipe {
+        grid-area: 2 / 1 / 3 / 2;
+    }
+}
+</style>
 <!-- <style scoped>
 .shopping-list {
     max-width: 100%;
